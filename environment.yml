@@ -1,0 +1,13 @@
+name: benchmarks
+channels:
+  - defaults
+dependencies:
+  - matplotlib
+  - python==3.8.16
+  - pip==23.0.1
+  - pylint
+  - pip:
+      - black
+      - pyperf
+      - isort
+      - mypy

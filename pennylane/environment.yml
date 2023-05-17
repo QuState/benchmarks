@@ -1,0 +1,11 @@
+name: pennylane
+channels:
+  - defaults
+dependencies:
+  - mkl-service==2.4.0
+  - numpy==1.20.3
+  - python==3.8.16
+  - pip==23.0.1
+  - pip:
+      - pennylane==0.30.0
+      - pyperf
