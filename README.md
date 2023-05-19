@@ -1,14 +1,8 @@
 # Quantum State Simulator Benchmarks
 
-We benchmark several popular quantum computation
-softwares/frameworks/simulators to test their performance in practical daily
-research.
-
-## Results
-
 ### Requirements
 
-- [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html?highlight=conda)
+- [Miniconda](https://docs.conda.io/en/main/miniconda.html)
 
 ## Run
 ```bash
