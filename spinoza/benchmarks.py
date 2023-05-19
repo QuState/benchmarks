@@ -47,4 +47,4 @@ def build_circuit(nqubits, depth, pairs):
     runner = pyperf.Runner()
 
     for i in nqubits_list:
-        runner.timeit(f"qcbm {i}", stmt='circuit.execute()', setup=setup+f"nqubits = {i}; pairs = [(i, (i + 1) % nqubits) for i in range(nqubits)]; circuit = build_circuit(nqubits, 9, pairs);)
+        runner.timeit(f"qcbm {i}", stmt='circuit.execute()', setup=setup+f"nqubits = {i}; pairs = [(i, (i + 1) % nqubits) for i in range(nqubits)]; circuit = build_circuit(nqubits, 9, pairs);")
