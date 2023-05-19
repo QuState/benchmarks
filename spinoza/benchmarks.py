@@ -1,4 +1,8 @@
 import pyperf
+
+
+if __name__ == "__main__":
+    setup="""
 import numpy as np
 from spinoza_py import QuantumRegister, QuantumCircuit
 
@@ -38,41 +42,9 @@ def build_circuit(nqubits, depth, pairs):
 
     last_rotation(circuit, nqubits)
     return circuit
-
-
-if __name__ == "__main__":
-    setup="""
-from spinoza_py import QuantumRegister, QuantumCircuit
-
-def qcbm(n):
-    pairs = [(i, (i + 1) % n) for i in range(n)]
-    q = QuantumRegister(n)
-    qc = QuantumCircuit(q)
-
-    for i in range(n):
-        qc.rx(1.0, i)
-        qc.rz(1.0, i)
-
-    for a, b in pairs:
-        qc.cx(a, b)
-
-    for d in range(9):
-        for i in range(n):
-            qc.rz(1.0, i)
-            qc.rx(1.0, i)
-            qc.rz(1.0, i)
-
-        for a, b in pairs:
-            qc.cx(a, b)
-
-    for i in range(n):
-        qc.rz(1.0, i)
-        qc.rx(1.0, i)
-
-    qc.execute();
-"""
+    """
     nqubits_list = range(4, 27)
     runner = pyperf.Runner()
 
     for i in nqubits_list:
-        runner.timeit(f"qcbm {i}", stmt='qcbm(n)', setup=setup+f"n = {i}")
+        runner.timeit(f"qcbm {i}", stmt='circuit.execute()', setup=setup+f"nqubits = {i}; pairs = [(i, (i + 1) % nqubits) for i in range(nqubits)]; circuit = build_circuit(nqubits, 9, pairs);)
