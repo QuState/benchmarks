@@ -1,13 +1,9 @@
 import mkl
+import pennylane as qml
+import numpy as np
 import pyperf
 
 mkl.set_num_threads(1)
-
-
-if __name__ == "__main__":
-    setup="""
-import pennylane as qml
-import numpy as np
 
 
 def first_rotation(circuit, nqubits):
@@ -44,9 +40,17 @@ def build_circuit(nqubits, depth, pairs):
 
     last_rotation(circuit, nqubits)
     return circuit
-"""
 
-    runner = pyperf.Runner()
 
-    for i in range(4, 27):
-        runner.timeit(f"qcbm {i}", stmt='st.apply(circuit)', setup=setup+f"nqubits = {i}; pairs = [(i, (i + 1) % nqubits) for i in range(nqubits)]; circuit = build_circuit(nqubits, 9, pairs); st = qml.device('lightning.qubit', nqubits);")
+if __name__ == "__main__":
+    import time
+
+    start = time.time()
+    nqubits = 4
+    pairs = [(i, (i + 1) % nqubits) for i in range(nqubits)]
+    circuit = build_circuit(nqubits, 9, pairs)
+    st = qml.device('lightning.qubit', nqubits)
+    st.apply(circuit)
+    end = time.time()
+    print(end - start)
+
