@@ -45,12 +45,12 @@ def build_circuit(nqubits, depth, pairs):
 if __name__ == "__main__":
     import time
 
-    start = time.time()
-    nqubits = 4
-    pairs = [(i, (i + 1) % nqubits) for i in range(nqubits)]
-    circuit = build_circuit(nqubits, 9, pairs)
-    st = qml.device('lightning.qubit', nqubits)
-    st.apply(circuit)
-    end = time.time()
-    print(end - start)
+    for nqubits in range(4, 20):
+        start = time.time()
+        pairs = [(i, (i + 1) % nqubits) for i in range(nqubits)]
+        circuit = build_circuit(nqubits, 9, pairs)
+        st = qml.device('lightning.qubit', nqubits)
+        st.apply(circuit)
+        end = time.time()
+        print(end - start)
 

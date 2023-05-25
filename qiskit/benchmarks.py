@@ -1,5 +1,22 @@
+from qiskit import Aer, QuantumCircuit, execute
+from qiskit.compiler import transpile, assemble
 import numpy as np
-from spinoza_py import QuantumRegister, QuantumCircuit
+
+import mkl
+mkl.set_num_threads(1)
+
+
+def run(circuit):
+    backend_options = {
+        "method": "statevector",
+        "precision": "double",
+        "max_parallel_threads": 1,
+    }
+
+    backend = Aer.get_backend("statevector_simulator")
+    backend.set_options(**backend_options)
+    job = execute(circuit, backend)
+    return job.result()
 
 
 def first_rotation(circuit, nqubits, angles):
@@ -30,11 +47,10 @@ def build_circuit(nqubits, depth, pairs):
     np.random.seed(42)
     angles = [np.random.rand() for _ in range(1000)]
 
-    q = QuantumRegister(nqubits)
-    circuit = QuantumCircuit(q)
+    circuit = QuantumCircuit(nqubits)
     first_rotation(circuit, nqubits, angles)
     entangler(circuit, pairs)
-    for k in range(depth):
+    for _ in range(depth):
         mid_rotation(circuit, nqubits, angles)
         entangler(circuit, pairs)
 
@@ -49,7 +65,7 @@ if __name__ == "__main__":
         start = time.time()
         pairs = [(i, (i + 1) % nqubits) for i in range(nqubits)]
         circuit = build_circuit(nqubits, 9, pairs)
-        circuit.execute()
-        # print(circuit.get_statevector())
+        res = run(circuit)
+        # print(res.get_statevector())
         end = time.time()
         print(f"{nqubits} qubits ... {end - start} elapsed")
