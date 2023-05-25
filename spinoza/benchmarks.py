@@ -34,7 +34,7 @@ def build_circuit(nqubits, depth, pairs):
     circuit = QuantumCircuit(q)
     first_rotation(circuit, nqubits, angles)
     entangler(circuit, pairs)
-    for k in range(depth):
+    for _ in range(depth):
         mid_rotation(circuit, nqubits, angles)
         entangler(circuit, pairs)
 
